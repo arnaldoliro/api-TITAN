@@ -12,3 +12,96 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model CandidateProsel {
+  id                       String             @id @default(uuid())
+  email                    String
+  name                     String
+  pronouns                 String
+  diversity_group          DiversityGroup
+  special_condition_needed Boolean
+  technology_affinity      TechnologyAffinity
+  course                   Course
+  registration_number      String
+  phone                    String
+  referral_source          ReferalSource
+  birth_date               DateTime
+  age                      Int
+  created_at               DateTime           @default(now())
+  updated_at               DateTime           @updatedAt
+  deleted_at               DateTime?
+}
+
+model CandidateSimtech {
+  id                       String             @id @default(uuid())
+  email                    String
+  name                     String
+  pronouns                 String
+  diversity_group          DiversityGroup
+  special_condition_needed Boolean
+  technology_affinity      TechnologyAffinity
+  course                   Course
+  registration_number      String
+  phone                    String
+  referral_source          ReferalSource
+  birth_date               DateTime
+  age                      Int
+  created_at               DateTime           @default(now())
+  updated_at               DateTime           @updatedAt
+  deleted_at               DateTime?
+  //relations
+  simtech_days             SimtechDay[]       @relation("CandidateSimtechToSimtechDay")
+}
+
+model SimtechDay {
+  id         String    @id @default(uuid())
+  date       DateTime
+  name       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  //relations
+  candidate_simtechs CandidateSimtech[] @relation("CandidateSimtechToSimtechDay")
+}
+
+enum DiversityGroup {
+  LGBTQIA
+  Black
+  Indigenous
+  Latinx
+  Asian
+  MiddleEastern
+  White
+  Other
+}
+
+enum Course {
+  Frontend
+  Backend
+  Fullstack
+  DevOps
+  DataScience
+  Mobile
+  QA
+  UXUI
+  ProductManagement
+  Other
+}
+
+enum ReferalSource {
+  Instagram
+  Facebook
+  LinkedIn
+  Twitter
+  WhatsApp
+  Email
+  Friend
+  Other
+}
+
+enum TechnologyAffinity {
+  Beginner
+  Intermediate
+  Advanced
+}
