@@ -66,10 +66,10 @@ export class ProselService {
     return this.database.candidateProsel.findMany();
   }
 
-  async findOne(id: string): Promise<CandidateProsel | null> {
+  async findOne(id: string): Promise<CandidateProsel> {
     return this.database.candidateProsel.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
   }
@@ -81,7 +81,6 @@ export class ProselService {
     if (!candidate) {
       throw new NotFoundException(`Usuário do id; ${id} não encontrado`);
     }
-
     return this.database.candidateProsel.update({
       where: { id },
       data: updateProselDto,
