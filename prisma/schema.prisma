@@ -15,7 +15,7 @@ datasource db {
 
 model CandidateProsel {
   id                       String             @id @default(uuid())
-  email                    String
+  email                    String             @unique
   name                     String
   pronouns                 String
   diversity_group          DiversityGroup
