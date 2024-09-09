@@ -1,5 +1,5 @@
 import {
-  Course,
+  Stack,
   DiversityGroup,
   ReferalSource,
   TechnologyAffinity,
@@ -14,7 +14,8 @@ export class CreateProselDto {
   special_condition_needed: boolean;
   technology_affinity: TechnologyAffinity;
   referral_source: ReferalSource;
-  course: Course;
+  course: string;
+  stack: Stack;
   registration_number: string;
   phone: string;
   age: number;

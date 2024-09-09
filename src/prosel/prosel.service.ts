@@ -7,7 +7,7 @@ import { UpdateProselDto } from './dto/update-prosel.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
   CandidateProsel,
-  Course,
+  Stack,
   DiversityGroup,
   ReferalSource,
   TechnologyAffinity,
@@ -33,7 +33,8 @@ export class ProselService {
     registration_number: string;
     age: number;
     diversity_group: DiversityGroup;
-    course: Course;
+    stack: Stack;
+    course: string;
     technology_affinity: TechnologyAffinity;
     referral_source: ReferalSource;
     birth_date: Date;
@@ -52,6 +53,7 @@ export class ProselService {
         diversity_group: data.diversity_group,
         special_condition_needed: data.special_condition_needed,
         technology_affinity: data.technology_affinity,
+        stack: data.stack,
         course: data.course,
         registration_number: data.registration_number,
         phone: data.phone,
@@ -87,16 +89,18 @@ export class ProselService {
     });
   }
 
-  async remove(id: string) {
-    const candidate = await this.database.candidateProsel.findUnique({
-      where: { id },
-    });
-    if (!candidate) {
-      throw new NotFoundException(`Usuário do id; ${id} não encontrado`);
-    }
+  // Função de deletar desabilitada até ter um middleware de aunteticação do usuário
 
-    return this.database.candidateProsel.delete({
-      where: { id },
-    });
-  }
+  // async remove(id: string) {
+  //   const candidate = await this.database.candidateProsel.findUnique({
+  //     where: { id },
+  //   });
+  //   if (!candidate) {
+  //     throw new NotFoundException(`Usuário do id; ${id} não encontrado`);
+  //   }
+
+  //   return this.database.candidateProsel.delete({
+  //     where: { id },
+  //   });
+  // }
 }

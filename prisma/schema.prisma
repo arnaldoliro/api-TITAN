@@ -21,7 +21,8 @@ model CandidateProsel {
   diversity_group          DiversityGroup
   special_condition_needed Boolean
   technology_affinity      TechnologyAffinity
-  course                   Course
+  stack                    Stack
+  course                   String
   registration_number      String
   phone                    String
   referral_source          ReferalSource
@@ -40,7 +41,8 @@ model CandidateSimtech {
   diversity_group          DiversityGroup
   special_condition_needed Boolean
   technology_affinity      TechnologyAffinity
-  course                   Course
+  stack                    Stack
+  course                   String
   registration_number      String
   phone                    String
   referral_source          ReferalSource
@@ -76,7 +78,7 @@ enum DiversityGroup {
   Other
 }
 
-enum Course {
+enum Stack {
   Frontend
   Backend
   Fullstack

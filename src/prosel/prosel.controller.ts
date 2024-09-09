@@ -5,7 +5,7 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  // Delete,
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
@@ -68,17 +68,19 @@ export class ProselController {
     }
   }
 
-  @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  async remove(@Param('id') id: string) {
-    try {
-      const candidate = await this.proselService.remove(id);
-      return { message: 'Candidato deletado!', candidate };
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new NotFoundException(error.message);
-      }
-      throw new InternalServerErrorException('Algum erro inesperado aconteceu');
-    }
-  }
+  // Função de deletar desabilitada até a criação de um middleware para autenticação
+
+  // @Delete(':id')
+  // @HttpCode(HttpStatus.OK)
+  // async remove(@Param('id') id: string) {
+  //   try {
+  //     const candidate = await this.proselService.remove(id);
+  //     return { message: 'Candidato deletado!', candidate };
+  //   } catch (error) {
+  //     if (error instanceof NotFoundException) {
+  //       throw new NotFoundException(error.message);
+  //     }
+  //     throw new InternalServerErrorException('Algum erro inesperado aconteceu');
+  //   }
+  // }
 }
