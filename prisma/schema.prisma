@@ -22,7 +22,7 @@ model CandidateProsel {
   special_condition_needed Boolean
   technology_affinity      TechnologyAffinity
   stack                    Stack
-  course                   String
+  course                   Courses[]
   registration_number      String
   phone                    String
   referral_source          ReferalSource
@@ -67,6 +67,14 @@ model SimtechDay {
   candidate_simtechs CandidateSimtech[] @relation("CandidateSimtechToSimtechDay")
 }
 
+model Courses {
+  id        String      @id
+  name      String      @unique
+  description   String?
+  others    Boolean @default(false)
+  candidate_prosel CandidateProsel[] 
+}
+
 enum DiversityGroup {
   LGBTQIA
   Black
@@ -106,4 +114,13 @@ enum TechnologyAffinity {
   Beginner
   Intermediate
   Advanced
+}
+
+enum InterestBoard {
+  Relacoes_externas
+  Comercial
+  Marketing
+  Desenvolvimento
+  Gestao_De_Pessoas
+  Financeiro
 }
