@@ -7,14 +7,15 @@ import {
   Param,
   // Delete,
   NotFoundException,
-  BadRequestException,
   InternalServerErrorException,
   HttpCode,
   HttpStatus,
+  ConflictException,
 } from '@nestjs/common';
 import { ProselService } from './prosel.service';
 import { CreateProselDto } from './dto/create-prosel.dto';
 import { UpdateProselDto } from './dto/update-prosel.dto';
+import { MessageHelper } from 'src/helpers/messages.helpers';
 
 @Controller('prosel')
 export class ProselController {
@@ -27,10 +28,12 @@ export class ProselController {
       const candidate = await this.proselService.create(createProselDto);
       return { message: 'Candidato criado com sucesso!', candidate };
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw new BadRequestException(error.message);
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
       }
-      throw new InternalServerErrorException('Algum erro inesperado aconteceu');
+      throw new InternalServerErrorException(
+        MessageHelper.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -45,7 +48,7 @@ export class ProselController {
   async findOne(@Param('id') id: string) {
     const candidate = await this.proselService.findOne(String(id));
     if (!candidate) {
-      throw new NotFoundException('Candidato não encontrado');
+      throw new NotFoundException(MessageHelper.USER_NOT_FOUND);
     } else {
       return { message: 'Candidato encontrado!', candidate };
     }
@@ -64,7 +67,9 @@ export class ProselController {
       if (error instanceof NotFoundException) {
         throw new NotFoundException(error.message);
       }
-      throw new InternalServerErrorException('Algum erro inesperado aconteceu');
+      throw new InternalServerErrorException(
+        MessageHelper.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

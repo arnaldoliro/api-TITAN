@@ -1,5 +1,5 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -12,6 +12,7 @@ import {
   ReferalSource,
   TechnologyAffinity,
 } from '@prisma/client';
+import { MessageHelper } from 'src/helpers/messages.helpers';
 
 @Injectable()
 export class ProselService {
@@ -40,9 +41,7 @@ export class ProselService {
     birth_date: Date;
   }) {
     if (await this.candidateExists(data.email)) {
-      throw new BadRequestException(
-        'O candidato já possui um email cadastrado',
-      );
+      throw new ConflictException(MessageHelper.USER_ALREADY_EXISTS);
     }
 
     return this.database.candidateProsel.create({
@@ -81,7 +80,7 @@ export class ProselService {
       where: { id },
     });
     if (!candidate) {
-      throw new NotFoundException(`Usuário do id; ${id} não encontrado`);
+      throw new NotFoundException(MessageHelper.USER_NOT_FOUND);
     }
     return this.database.candidateProsel.update({
       where: { id },
