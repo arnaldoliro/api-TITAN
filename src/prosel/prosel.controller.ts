@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
   // Delete,
   NotFoundException,
@@ -11,10 +11,11 @@ import {
   HttpCode,
   HttpStatus,
   ConflictException,
+  // ParseIntPipe,
 } from '@nestjs/common';
 import { ProselService } from './prosel.service';
 import { CreateProselDto } from './dto/create-prosel.dto';
-import { UpdateProselDto } from './dto/update-prosel.dto';
+// import { UpdateProselDto } from './dto/update-prosel.dto';
 import { MessageHelper } from 'src/helpers/messages.helpers';
 
 @Controller('prosel')
@@ -28,6 +29,7 @@ export class ProselController {
       const candidate = await this.proselService.create(createProselDto);
       return { message: 'Candidato criado com sucesso!', candidate };
     } catch (error) {
+      console.error(error);
       if (error instanceof ConflictException) {
         throw new ConflictException(error.message);
       }
@@ -54,24 +56,26 @@ export class ProselController {
     }
   }
 
-  @Patch(':id')
-  @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id') id: string,
-    @Body() updateProselDto: UpdateProselDto,
-  ) {
-    try {
-      const candidate = await this.proselService.update(id, updateProselDto);
-      return { message: 'Candidato atualizado!', candidate };
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new NotFoundException(error.message);
-      }
-      throw new InternalServerErrorException(
-        MessageHelper.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
+  //  Função de atualizar desativada pois aparentemente é desnecessária (Está incompleta, rever a lógica, atualização do other_courses está bugada)
+
+  // @Patch(':id')
+  // @HttpCode(HttpStatus.CREATED)
+  // async update(
+  //   @Param('id', ParseIntPipe) id: string,
+  //   @Body() updateProselDto: UpdateProselDto,
+  // ) {
+  //   try {
+  //     const candidate = await this.proselService.update(id, updateProselDto);
+  //     return { message: 'Candidato atualizado!', candidate };
+  //   } catch (error) {
+  //     if (error instanceof NotFoundException) {
+  //       throw new NotFoundException(error.message);
+  //     }
+  //     throw new InternalServerErrorException(
+  //       MessageHelper.INTERNAL_SERVER_ERROR,
+  //     );
+  //   }
+  // }
 
   // Função de deletar desabilitada até a criação de um middleware para autenticação
 

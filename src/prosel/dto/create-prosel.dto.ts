@@ -13,6 +13,9 @@ import {
   IsInt,
   Min,
   Max,
+  IsOptional,
+  ValidateIf,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class CreateProselDto {
@@ -37,8 +40,20 @@ export class CreateProselDto {
   @IsBoolean()
   special_condition_needed: boolean;
 
+  @IsOptional()
+  @IsInt()
+  @ValidateIf((o) => !o.others)
+  courseId?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  others?: boolean;
+
+  @IsOptional()
   @IsString()
-  course: string;
+  @IsNotEmpty({ message: 'O nome do curso deve ser preenchido.' })
+  @ValidateIf((o) => o.others)
+  other_course?: string;
 
   @IsString()
   registration_number: string;

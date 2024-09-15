@@ -22,7 +22,9 @@ model CandidateProsel {
   special_condition_needed Boolean
   technology_affinity      TechnologyAffinity
   stack                    Stack
-  course                   Courses[]
+  course                   Courses?  @relation(fields: [courseId], references: [id])
+  courseId                 Int?
+  other_course             String?
   registration_number      String
   phone                    String
   referral_source          ReferalSource
@@ -42,7 +44,9 @@ model CandidateSimtech {
   special_condition_needed Boolean
   technology_affinity      TechnologyAffinity
   stack                    Stack
-  course                   String
+  course                   Courses  @relation(fields: [courseId], references: [id])
+  courseId                 Int
+  other_course             String?
   registration_number      String
   phone                    String
   referral_source          ReferalSource
@@ -68,11 +72,11 @@ model SimtechDay {
 }
 
 model Courses {
-  id        String      @id
+  id        Int      @id @default(autoincrement())
   name      String      @unique
-  description   String?
   others    Boolean @default(false)
-  candidate_prosel CandidateProsel[] 
+  candidate_prosel CandidateProsel[]
+  candidate_simtech CandidateSimtech[] 
 }
 
 enum DiversityGroup {
